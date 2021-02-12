@@ -25,7 +25,7 @@ ${chalk.green(
         ['src',
            ' - /InterfaceAdapters/IDomain/I' + this.entity_name + 'Domain.ts',
            ' - /Domain/Entities/' + this.entity_name + '.ts',
-           ' - etx...'
+           ' - etc...'
 ].join("\n")
 )} 
 Also the following routes will be availabe for you:
@@ -65,8 +65,6 @@ ${chalk.green("- DELETE")} /${this.entity_name}/:id
 == CONGRATS == 
 Your crud is ready for you to start pumping code into it!
 
-Now you can:
-1- edit your files ./${folderName}
         `))
     }
         
@@ -118,7 +116,78 @@ Now you can:
             // createdFiles.forEach( filePath => console.log(`Created ${filePath}`))
             console.log('done !')
         });
+        this.printFilesToEdit(templateVars)
     }
+
+    printFilesToEdit(templateVars: any) {
+
+        const { entity_name, entities_name,
+                entity_name_lc, entities_name_lc,
+                entity_name_uc, entities_name_uc
+        } = templateVars;
+
+        this.log(
+`
+${chalk.green( ['config/Permissions.ts'].join("\n") )}
+${chalk.yellow([
+` ... `,
+`   // ${entity_name_uc}`,
+`   static readonly ${entity_name_uc}_SAVE: string = '${entity_name_lc}Save';`,
+`   static readonly ${entity_name_uc}_UPDATE: string = '${entity_name_lc}Update';`,
+`   static readonly ${entity_name_uc}_SHOW: string = '${entity_name_lc}Show';`,
+`   static readonly ${entity_name_uc}_LIST: string = '${entity_name_lc}List';`,
+`   static readonly ${entity_name_uc}_DELETE: string = '${entity_name_lc}Delete';`,
+` ...\n`,
+` ...`,
+"   `${Permissions."+entity_name_uc+"_SAVE}`,",
+"   `${Permissions."+entity_name_uc+"_UPDATE}`,",
+"   `${Permissions."+entity_name_uc+"_SHOW}`,",
+"   `${Permissions."+entity_name_uc+"_LIST}`,",
+"   `${Permissions."+entity_name_uc+"_DELETE}`,",
+` ...\n`,
+].join("\n"))}
+
+${chalk.green( ['src/Infrastructure/Database/MongooseCreateConnection.ts'].join("\n") )}
+${chalk.yellow([
+` ... `,
+`    import I${entity_name}Document from "../../InterfaceAdapters/IEntities/Mongoose/I${entity_name}Document";`,
+` ...\n`,
+` ... `,
+`    import ${entity_name}Schema from "../Schema/Mongoose/${entity_name}";`,
+` ...\n`,
+` ... `,
+`    connection.model<I${entity_name}Document>('${entity_name}', ${entity_name}Schema);`,
+` ...\n`,
+].join("\n"))}
+
+${chalk.green( ['src/repositories.ts'].join("\n") )}
+${chalk.yellow([
+` ... `,
+`    I${entity_name}Repository: 'I${entity_name}Repository',`,
+` ...\n`,
+].join("\n"))}
+
+${chalk.green( ['src/inversify.config.ts'].join("\n") )}
+${chalk.yellow([
+` ... `,
+`    import I${entity_name}Repository from "./InterfaceAdapters/IRepositories/I${entity_name}Repository";`,
+` ...\n`,
+` ... `,
+`    import ${entity_name}MongoRepository from "./Infrastructure/Repositories/${entity_name}MongoRepository";`,
+` ...\n`,
+` ... `,
+`    container.bind<I${entity_name}Repository>(REPOSITORIES.I${entity_name}Repository).to(${entity_name}MongoRepository);`,
+` ...\n`,
+].join("\n"))}
+
+${chalk.green( ['src/Application/app.ts'].join("\n") )}
+${chalk.yellow([
+` ... `,
+`    import '../Presentation/Handlers/${entity_name}Handler';`,
+` ...\n`,
+].join("\n"))}
+
+`)}
 
     execute(answer) {
         if(!answer.continue){
