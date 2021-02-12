@@ -20,7 +20,7 @@ class {{entity_name}}MongoRepository implements I{{entity_name}}Repository
 
     constructor()
     {
-        this.repository = connection.model<I{{entity_name}}>('{{entity_name}}');
+        this.repository = connection.model<I{{entity_name}}>('{{entity_name_snakeCase}}');
     }
 
     async save ({{entity_name_lc}}: I{{entity_name}}Domain): Promise<I{{entity_name}}Domain>

@@ -16,7 +16,7 @@ class Save{{entity_name}}UseCase
         {{entity_name_lc}}.name = payload.getName();
         {{entity_name_lc}}.type = payload.getType();
 
-        {{entity_name_lc}} = await this.repository.save({{entity_name_lc}});
+        await this.repository.save({{entity_name_lc}});
 
         return {{entity_name_lc}};
     }

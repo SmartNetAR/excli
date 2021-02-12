@@ -92,19 +92,25 @@ Your crud is ready for you to start pumping code into it!
             str.replace(/[A-Z]/g, letter => `_${letter.toLowerCase()}`)
         )
 
+        const pascalToSnakeCase = (str: string) => (
+            str.replace(/[A-Z]/g, (letter, index) => index > 0 ? `_${letter}` : letter)
+        )
+
         const destDir = process.cwd();
 
         const entityCamelCase = camelize(this.entity_name);
         const EntityPascalCase = pascalize(this.entity_name);
-        const ENTITYUPPERCASE = camelToSnakeCase(entityCamelCase).toUpperCase();
+        const ENTITY_UPPER_CASE = camelToSnakeCase(entityCamelCase).toUpperCase();
+        const Entity_Pascal_Case = pascalToSnakeCase(EntityPascalCase);
 
         const templateVars = {
             entity_name: EntityPascalCase,
             entities_name: pluralize.plural(EntityPascalCase),
             entity_name_lc: entityCamelCase,
             entities_name_lc: pluralize.plural(entityCamelCase),
-            entity_name_uc: ENTITYUPPERCASE,
-            entities_name_uc: pluralize.plural(ENTITYUPPERCASE)
+            entity_name_uc: ENTITY_UPPER_CASE,
+            entities_name_uc: pluralize.plural(ENTITY_UPPER_CASE),
+            entity_name_snakeCase: Entity_Pascal_Case 
         }
 
         copy(SOURCEEXPRESSBLOG, destDir, templateVars, (err, createdFiles: string[])=>{
@@ -123,7 +129,8 @@ Your crud is ready for you to start pumping code into it!
 
         const { entity_name, entities_name,
                 entity_name_lc, entities_name_lc,
-                entity_name_uc, entities_name_uc
+                entity_name_uc, entities_name_uc,
+                entity_name_snakeCase
         } = templateVars;
 
         this.log(
@@ -131,32 +138,32 @@ Your crud is ready for you to start pumping code into it!
 ${chalk.green( ['config/Permissions.ts'].join("\n") )}
 ${chalk.yellow([
 ` ... `,
-`   // ${entity_name_uc}`,
-`   static readonly ${entity_name_uc}_SAVE: string = '${entity_name_lc}Save';`,
-`   static readonly ${entity_name_uc}_UPDATE: string = '${entity_name_lc}Update';`,
-`   static readonly ${entity_name_uc}_SHOW: string = '${entity_name_lc}Show';`,
-`   static readonly ${entity_name_uc}_LIST: string = '${entity_name_lc}List';`,
-`   static readonly ${entity_name_uc}_DELETE: string = '${entity_name_lc}Delete';`,
+`   // ${entities_name_uc}`,
+`    static readonly ${entities_name_uc}_SAVE: string = '${entities_name_lc}Save';`,
+`    static readonly ${entities_name_uc}_UPDATE: string = '${entities_name_lc}Update';`,
+`    static readonly ${entities_name_uc}_SHOW: string = '${entities_name_lc}Show';`,
+`    static readonly ${entities_name_uc}_LIST: string = '${entities_name_lc}List';`,
+`    static readonly ${entities_name_uc}_DELETE: string = '${entities_name_lc}Delete';`,
 ` ...\n`,
 ` ...`,
-"   `${Permissions."+entity_name_uc+"_SAVE}`,",
-"   `${Permissions."+entity_name_uc+"_UPDATE}`,",
-"   `${Permissions."+entity_name_uc+"_SHOW}`,",
-"   `${Permissions."+entity_name_uc+"_LIST}`,",
-"   `${Permissions."+entity_name_uc+"_DELETE}`,",
+"            `${Permissions."+entities_name_uc+"_SAVE}`,",
+"            `${Permissions."+entities_name_uc+"_UPDATE}`,",
+"            `${Permissions."+entities_name_uc+"_SHOW}`,",
+"            `${Permissions."+entities_name_uc+"_LIST}`,",
+"            `${Permissions."+entities_name_uc+"_DELETE}`,",
 ` ...\n`,
 ].join("\n"))}
 
 ${chalk.green( ['src/Infrastructure/Database/MongooseCreateConnection.ts'].join("\n") )}
 ${chalk.yellow([
 ` ... `,
-`    import I${entity_name}Document from "../../InterfaceAdapters/IEntities/Mongoose/I${entity_name}Document";`,
+`import I${entity_name}Document from "../../InterfaceAdapters/IEntities/Mongoose/I${entity_name}Document";`,
 ` ...\n`,
 ` ... `,
-`    import ${entity_name}Schema from "../Schema/Mongoose/${entity_name}";`,
+`import ${entity_name}Schema from "../Schema/Mongoose/${entity_name}";`,
 ` ...\n`,
 ` ... `,
-`    connection.model<I${entity_name}Document>('${entity_name}', ${entity_name}Schema);`,
+`        connection.model<I${entity_name}Document>('${entity_name_snakeCase}', ${entity_name}Schema);`,
 ` ...\n`,
 ].join("\n"))}
 
@@ -170,10 +177,10 @@ ${chalk.yellow([
 ${chalk.green( ['src/inversify.config.ts'].join("\n") )}
 ${chalk.yellow([
 ` ... `,
-`    import I${entity_name}Repository from "./InterfaceAdapters/IRepositories/I${entity_name}Repository";`,
+`import I${entity_name}Repository from "./InterfaceAdapters/IRepositories/I${entity_name}Repository";`,
 ` ...\n`,
 ` ... `,
-`    import ${entity_name}MongoRepository from "./Infrastructure/Repositories/${entity_name}MongoRepository";`,
+`import ${entity_name}MongoRepository from "./Infrastructure/Repositories/${entity_name}MongoRepository";`,
 ` ...\n`,
 ` ... `,
 `    container.bind<I${entity_name}Repository>(REPOSITORIES.I${entity_name}Repository).to(${entity_name}MongoRepository);`,
@@ -183,7 +190,7 @@ ${chalk.yellow([
 ${chalk.green( ['src/Application/app.ts'].join("\n") )}
 ${chalk.yellow([
 ` ... `,
-`    import '../Presentation/Handlers/${entity_name}Handler';`,
+`import '../Presentation/Handlers/${entity_name}Handler';`,
 ` ...\n`,
 ].join("\n"))}
 
