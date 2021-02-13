@@ -194,6 +194,17 @@ ${chalk.yellow([
 ` ...\n`,
 ].join("\n"))}
 
+${chalk.green( ['src/config/Roles.ts Roles Permission'].join("\n") )}
+${chalk.yellow([
+` ... `,
+`                Permissions.${entities_name_uc}_SAVE,`,
+`                Permissions.${entities_name_uc}_UPDATE,`,
+`                Permissions.${entities_name_uc}_SHOW,`,
+`                Permissions.${entities_name_uc}_LIST,`,
+`                Permissions.${entities_name_uc}_DELETE,`,
+` ...\n`,
+].join("\n"))}
+
 `)}
 
     execute(answer) {
