@@ -1,5 +1,5 @@
-import I{{entity_name}}Domain from "../../InterfaceAdapters/IDomain/I{{entity_name}}Domain";
-import { v4 as uuidv4 } from 'uuid';
+import I{{entity_name}}Domain from '../../InterfaceAdapters/IDomain/I{{entity_name}}Domain';
+import {v4 as uuidv4} from 'uuid';
 
 class {{entity_name}} implements I{{entity_name}}Domain
 {

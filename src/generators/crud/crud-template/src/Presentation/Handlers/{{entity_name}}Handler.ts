@@ -1,26 +1,23 @@
+import {IPaginator, StatusCode} from '@digichanges/shared-experience';
 import {NextFunction, Request, Response} from 'express';
-import {controller, httpDelete, httpGet, httpPost, httpPut, request, response, next} from 'inversify-express-utils';
-import { TYPES } from "../../types";
-import {inject} from "inversify";
-import Responder from "../Shared/Responder";
-import StatusCode from "../Shared/StatusCode";
-import AuthorizeMiddleware from "../Middlewares/AuthorizeMiddleware";
-import Permissions from "../../../config/Permissions";
-
-import {{entity_name}}Transformer from "../Transformers/{{entities_name}}/{{entity_name}}Transformer";
-import {{entity_name}}RepRequest from "../Requests/Handler/{{entities_name}}/{{entity_name}}RepRequest";
-import IdRequest from "../Requests/Handler/Defaults/IdRequest";
-import {{entity_name}}RequestCriteria from "../Requests/Handler/{{entities_name}}/{{entity_name}}RequestCriteria";
-import {{entity_name}}UpdateRequest from "../Requests/Handler/{{entities_name}}/{{entity_name}}UpdateRequest";
-import I{{entity_name}}Domain from "../../InterfaceAdapters/IDomain/I{{entity_name}}Domain";
-
-import Save{{entity_name}}UseCase from "../../Domain/UseCases/{{entity_name}}/Save{{entity_name}}UseCase";
-import List{{entities_name}}UseCase from "../../Domain/UseCases/{{entity_name}}/List{{entities_name}}UseCase";
-import IPaginator from "../../InterfaceAdapters/Shared/IPaginator";
-import Get{{entity_name}}UseCase from "../../Domain/UseCases/{{entity_name}}/Get{{entity_name}}UseCase";
-import Remove{{entity_name}}UseCase from "../../Domain/UseCases/{{entity_name}}/Remove{{entity_name}}UseCase";
-import Update{{entity_name}}UseCase from "../../Domain/UseCases/{{entity_name}}/Update{{entity_name}}UseCase";
-import ValidatorRequest from "../../Application/Shared/ValidatorRequest";
+import {inject} from 'inversify';
+import {controller, httpDelete, httpGet, httpPost, httpPut, next, request, response} from 'inversify-express-utils';
+import ValidatorRequest from '../../Application/Shared/ValidatorRequest';
+import Permissions from '../../Config/Permissions';
+import Get{{entity_name}}UseCase from '../../Domain/UseCases/{{entity_name}}/Get{{entity_name}}UseCase';
+import List{{entities_name}}UseCase from '../../Domain/UseCases/{{entity_name}}/List{{entities_name}}UseCase';
+import Remove{{entity_name}}UseCase from '../../Domain/UseCases/{{entity_name}}/Remove{{entity_name}}UseCase';
+import Save{{entity_name}}UseCase from '../../Domain/UseCases/{{entity_name}}/Save{{entity_name}}UseCase';
+import Update{{entity_name}}UseCase from '../../Domain/UseCases/{{entity_name}}/Update{{entity_name}}UseCase';
+import I{{entity_name}}Domain from '../../InterfaceAdapters/IDomain/I{{entity_name}}Domain';
+import {TYPES} from '../../types';
+import AuthorizeMiddleware from '../Middlewares/AuthorizeMiddleware';
+import IdRequest from '../Requests/Handler/Defaults/IdRequest';
+import {{entity_name}}RepRequest from '../Requests/Handler/{{entities_name}}/{{entity_name}}RepRequest';
+import {{entity_name}}RequestCriteria from '../Requests/Handler/{{entities_name}}/{{entity_name}}RequestCriteria';
+import {{entity_name}}UpdateRequest from '../Requests/Handler/{{entities_name}}/{{entity_name}}UpdateRequest';
+import Responder from '../Shared/Responder';
+import {{entity_name}}Transformer from '../Transformers/{{entities_name}}/{{entity_name}}Transformer';
 
 @controller('/api/{{entities_name_lc}}')
 class {{entity_name}}Handler
@@ -29,7 +26,7 @@ class {{entity_name}}Handler
     private responder: Responder;
 
     @httpPost('/', AuthorizeMiddleware(Permissions.{{entities_name_uc}}_SAVE))
-    public async save (@request() req: Request, @response() res: Response, @next() nex: NextFunction)
+    public async save (@request() req: Request, @response() res: Response, @next() nex: NextFunction): Promise<void>
     {
         const _request = new {{entity_name}}RepRequest(req);
         await ValidatorRequest.handle(_request);
@@ -41,7 +38,7 @@ class {{entity_name}}Handler
     }
 
     @httpGet('/', AuthorizeMiddleware(Permissions.{{entities_name_uc}}_LIST))
-    public async list (@request() req: Request, @response() res: Response)
+    public async list (@request() req: Request, @response() res: Response, @next() nex: NextFunction): Promise<void>
     {
         const _request = new {{entity_name}}RequestCriteria(req);
         await ValidatorRequest.handle(_request);
@@ -53,7 +50,7 @@ class {{entity_name}}Handler
     }
 
     @httpGet('/:id', AuthorizeMiddleware(Permissions.{{entities_name_uc}}_SHOW))
-    public async getOne  (@request() req: Request, @response() res: Response, @next() nex: NextFunction)
+    public async getOne  (@request() req: Request, @response() res: Response, @next() nex: NextFunction): Promise<void>
     {
         const _request = new IdRequest(req);
         await ValidatorRequest.handle(_request);
@@ -65,7 +62,7 @@ class {{entity_name}}Handler
     }
 
     @httpPut('/:id', AuthorizeMiddleware(Permissions.{{entities_name_uc}}_UPDATE))
-    public async update (@request() req: Request, @response() res: Response, @next() nex: NextFunction)
+    public async update (@request() req: Request, @response() res: Response, @next() nex: NextFunction): Promise<void>
     {
         const _request = new {{entity_name}}UpdateRequest(req);
         await ValidatorRequest.handle(_request);
@@ -77,7 +74,7 @@ class {{entity_name}}Handler
     }
 
     @httpDelete('/:id', AuthorizeMiddleware(Permissions.{{entities_name_uc}}_DELETE))
-    public async remove (@request() req: Request, @response() res: Response, @next() nex: NextFunction)
+    public async remove (@request() req: Request, @response() res: Response, @next() nex: NextFunction): Promise<void>
     {
         const _request = new IdRequest(req);
         await ValidatorRequest.handle(_request);

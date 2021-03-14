@@ -1,14 +1,18 @@
-import { lazyInject } from '../../../inversify.config'
-import {{entity_name}}RepPayload from "../../../InterfaceAdapters/Payloads/{{entities_name}}/{{entity_name}}RepPayload";
-import I{{entity_name}}Domain from "../../../InterfaceAdapters/IDomain/I{{entity_name}}Domain";
-import {{entity_name}} from "../../../Domain/Entities/{{entity_name}}";
-import I{{entity_name}}Repository from "../../../InterfaceAdapters/IRepositories/I{{entity_name}}Repository";
-import {REPOSITORIES} from "../../../repositories";
+import {{entity_name}} from '../../../Domain/Entities/{{entity_name}}';
+import ContainerFactory from '../../../Infrastructure/Factories/ContainerFactory';
+import I{{entity_name}}Domain from '../../../InterfaceAdapters/IDomain/I{{entity_name}}Domain';
+import I{{entity_name}}Repository from '../../../InterfaceAdapters/IRepositories/I{{entity_name}}Repository';
+import {{entity_name}}RepPayload from '../../../InterfaceAdapters/Payloads/{{entities_name}}/{{entity_name}}RepPayload';
+import {REPOSITORIES} from '../../../repositories';
 
 class Save{{entity_name}}UseCase
 {
-    @lazyInject(REPOSITORIES.I{{entity_name}}Repository)
     private repository: I{{entity_name}}Repository;
+
+    constructor()
+    {
+        this.repository = ContainerFactory.create<I{{entity_name}}Repository>(REPOSITORIES.I{{entity_name}}Repository);
+    }
 
     async handle(payload: {{entity_name}}RepPayload): Promise<I{{entity_name}}Domain>
     {

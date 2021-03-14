@@ -157,10 +157,10 @@ ${chalk.yellow([
 ${chalk.green( ['src/Infrastructure/Database/MongooseCreateConnection.ts'].join("\n") )}
 ${chalk.yellow([
 ` ... `,
-`import I${entity_name}Document from "../../InterfaceAdapters/IEntities/Mongoose/I${entity_name}Document";`,
+`import I${entity_name}Document from '../../InterfaceAdapters/IEntities/Mongoose/I${entity_name}Document';`,
 ` ...\n`,
 ` ... `,
-`import ${entity_name}Schema from "../Schema/Mongoose/${entity_name}";`,
+`import ${entity_name}Schema from '../Schema/Mongoose/${entity_name}';`,
 ` ...\n`,
 ` ... `,
 `        connection.model<I${entity_name}Document>('${entity_name_snakeCase}', ${entity_name}Schema);`,
@@ -177,10 +177,10 @@ ${chalk.yellow([
 ${chalk.green( ['src/inversify.config.ts'].join("\n") )}
 ${chalk.yellow([
 ` ... `,
-`import I${entity_name}Repository from "./InterfaceAdapters/IRepositories/I${entity_name}Repository";`,
+`import I${entity_name}Repository from './InterfaceAdapters/IRepositories/I${entity_name}Repository';`,
 ` ...\n`,
 ` ... `,
-`import ${entity_name}MongoRepository from "./Infrastructure/Repositories/${entity_name}MongoRepository";`,
+`import ${entity_name}MongoRepository from './Infrastructure/Repositories/${entity_name}MongoRepository';`,
 ` ...\n`,
 ` ... `,
 `    container.bind<I${entity_name}Repository>(REPOSITORIES.I${entity_name}Repository).to(${entity_name}MongoRepository);`,

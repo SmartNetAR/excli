@@ -1,7 +1,7 @@
-import * as express from "express";
-import {{entity_name}}UpdatePayload from "../../../../InterfaceAdapters/Payloads/{{entities_name}}/{{entity_name}}UpdatePayload";
-import {IsInt, IsString} from "class-validator";
-import IdRequest from "../Defaults/IdRequest";
+import {IsInt, IsString} from 'class-validator';
+import * as express from 'express';
+import {{entity_name}}UpdatePayload from '../../../../InterfaceAdapters/Payloads/{{entities_name}}/{{entity_name}}UpdatePayload';
+import IdRequest from '../Defaults/IdRequest';
 
 class {{entity_name}}UpdateRequest extends IdRequest implements {{entity_name}}UpdatePayload
 {

@@ -1,11 +1,8 @@
-import * as express from "express";
-import ICriteria from "../../../../InterfaceAdapters/Shared/ICriteria";
-import IPagination from "../../../../InterfaceAdapters/Shared/IPagination";
-import IFilter from "../../../../InterfaceAdapters/Shared/IFilter";
-import ISort from "../../../../InterfaceAdapters/Shared/ISort";
-import {{entity_name}}Filter from "../../../Criterias/{{entity_name}}/{{entity_name}}Filter";
-import {{entity_name}}Sort from "../../../Criterias/{{entity_name}}/{{entity_name}}Sort";
-import Pagination from "../../../Shared/Pagination";
+import {IFilter, IPagination, ISort, ICriteria} from '@digichanges/shared-experience';
+import * as express from 'express';
+import {{entity_name}}Filter from '../../../Criterias/{{entity_name}}/{{entity_name}}Filter';
+import {{entity_name}}Sort from '../../../Criterias/{{entity_name}}/{{entity_name}}Sort';
+import Pagination from '../../../Shared/Pagination';
 
 class {{entity_name}}RequestCriteria implements ICriteria
 {

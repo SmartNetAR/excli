@@ -1,18 +1,19 @@
-import {InversifyExpressServer} from "inversify-express-utils";
-import supertest from "supertest";
-import ICreateConnection from "../../InterfaceAdapters/IDatabase/ICreateConnection";
-import initServer from "../initServer";
+import {ICreateConnection} from '@digichanges/shared-experience';
+import {InversifyExpressServer} from 'inversify-express-utils';
+import supertest from 'supertest';
+import initServer from '../initServer';
 
-describe("Start {{entity}} Test", () =>
+describe('Start {{entity_name}} Test', () =>
 {
     let server: InversifyExpressServer;
     let request: supertest.SuperTest<supertest.Test>;
     let dbConnection: ICreateConnection;
     let token: any = null;
-    let {{entity_name_lc}}Id: string = '';
+    let {{entity_name_lc}}Id = '';
     let deleteResponse: any = null;
 
-    beforeAll(async (done) => {
+    beforeAll(async (done) =>
+    {
         const configServer = await initServer();
 
         server = configServer.server;
@@ -22,36 +23,39 @@ describe("Start {{entity}} Test", () =>
         done();
     });
 
-    afterAll((async (done) => {
+    afterAll((async (done) =>
+    {
         await dbConnection.drop();
         await dbConnection.close();
 
         done();
     }));
 
-    describe('{{entity}} Success', () =>
+    describe('{{entity_name}} Success', () =>
     {
-        beforeAll(async (done) => {
-           const payload = {
-                email: "user@node.com",
-                password: "12345678"
+        beforeAll(async (done) =>
+        {
+            const payload = {
+                email: 'user@node.com',
+                password: '12345678'
             };
 
             const response: any = await request
-                .post("/api/auth/login?provider=local")
+                .post('/api/auth/login?provider=local')
                 .set('Accept', 'application/json')
                 .send(payload);
 
-            const {body: {data} } = response;
+            const {body: {data}} = response;
 
             token = data.token;
 
             done();
         });
 
-        test('Add {{entity}} /{{entities_name_lc}}', async done => {
-           const payload = {
-                name: '{{entity}} 1',
+        test('Add {{entity_name}} /{{entities_name_lc}}', async done =>
+        {
+            const payload = {
+                name: '{{entity_name}} 1',
                 type: 10
             };
 
@@ -61,7 +65,7 @@ describe("Start {{entity}} Test", () =>
                 .set('Authorization', `Bearer ${token}`)
                 .send(payload);
 
-            const {body: {status, statusCode, data, metadata: {refreshToken} } } = response;
+            const {body: {status, statusCode, data, metadata: {refreshToken}}} = response;
 
             expect(response.statusCode).toStrictEqual(201);
             expect(status).toStrictEqual('success');
@@ -76,10 +80,10 @@ describe("Start {{entity}} Test", () =>
             done();
         });
 
-        test('Get {{entity}} /{{entities_name_lc}}/:id', async done => {
-
+        test('Get {{entity_name}} /{{entities_name_lc}}/:id', async done =>
+        {
             const payload = {
-                name: '{{entity}} 1',
+                name: '{{entity_name}} 1',
                 type: 10
             };
 
@@ -103,11 +107,12 @@ describe("Start {{entity}} Test", () =>
             done();
         });
 
-        test('Update {{entity}} /{{entities_name_lc}}/:id', async done => {
+        test('Update {{entity_name}} /{{entities_name_lc}}/:id', async done =>
+        {
             const payload = {
-                name: '{{entity}} 1 update',
+                name: '{{entity_name}} 1 update',
                 type: 11
-            }
+            };
 
             const response: any = await request
                 .put(`/api/{{entities_name_lc}}/${{{entity_name_lc}}Id}`)
@@ -129,11 +134,12 @@ describe("Start {{entity}} Test", () =>
             done();
         });
 
-        test('Delete {{entity}} /{{entities_name_lc}}/:id', async done => {
+        test('Delete {{entity_name}} /{{entities_name_lc}}/:id', async done =>
+        {
             const payload = {
-                name: '{{entity}} 13 for delete',
+                name: '{{entity_name}} 13 for delete',
                 type: 13
-            }
+            };
 
             const createResponse: any = await request
                 .post('/api/{{entities_name_lc}}')
@@ -161,8 +167,8 @@ describe("Start {{entity}} Test", () =>
             done();
         });
 
-        test('Get {{entities_name}} /{{entities_name_lc}}', async done => {
-
+        test('Get {{entities_name}} /{{entities_name_lc}}', async done =>
+        {
             const response: any = await request
                 .get('/api/{{entities_name_lc}}?pagination[limit]=5&pagination[offset]=0')
                 .set('Accept', 'application/json')
@@ -185,8 +191,8 @@ describe("Start {{entity}} Test", () =>
             done();
         });
 
-        test('Get {{entities_name}} /{{entities_name_lc}} without pagination', async done => {
-
+        test('Get {{entities_name}} /{{entities_name_lc}} without pagination', async done =>
+        {
             const response: any = await request
                 .get('/api/{{entities_name_lc}}')
                 .set('Accept', 'application/json')
@@ -207,8 +213,8 @@ describe("Start {{entity}} Test", () =>
             done();
         });
 
-        test('Get {{entities_name}} /{{entities_name_lc}} with Filter Type', async done => {
-
+        test('Get {{entities_name}} /{{entities_name_lc}} with Filter Type', async done =>
+        {
             const response: any = await request
                 .get('/api/{{entities_name_lc}}?pagination[limit]=20&pagination[offset]=0&filter[type]=11')
                 .set('Accept', 'application/json')
@@ -231,8 +237,8 @@ describe("Start {{entity}} Test", () =>
             done();
         });
 
-        test('Get {{entities_name}} /{{entities_name_lc}} with Sort Desc Type', async done => {
-
+        test('Get {{entities_name}} /{{entities_name_lc}} with Sort Desc Type', async done =>
+        {
             const response: any = await request
                 .get('/api/{{entities_name_lc}}?pagination[limit]=20&pagination[offset]=0&sort[type]=desc')
                 .set('Accept', 'application/json')
@@ -253,16 +259,17 @@ describe("Start {{entity}} Test", () =>
         });
     });
 
-    describe('{{entity}} Fails', () =>
+    describe('{{entity_name}} Fails', () =>
     {
-        beforeAll(async (done) => {
-           const payload = {
-                email: "user@node.com",
-                password: "12345678"
+        beforeAll(async (done) =>
+        {
+            const payload = {
+                email: 'user@node.com',
+                password: '12345678'
             };
 
             const response: any = await request
-                .post("/api/auth/login?provider=local")
+                .post('/api/auth/login?provider=local')
                 .set('Accept', 'application/json')
                 .send(payload);
 
@@ -273,10 +280,11 @@ describe("Start {{entity}} Test", () =>
             done();
         });
 
-        test('Add {{entity}} /{{entities_name_lc}}', async done => {
-           const payload = {
-                name: '{{entity}} 2',
-                type: '{{entity}} 1'
+        test('Add {{entity_name}} /{{entities_name_lc}}', async done =>
+        {
+            const payload = {
+                name: '{{entity_name}} 2',
+                type: '{{entity_name}} 1'
             };
 
             const response: any = await request
@@ -300,7 +308,8 @@ describe("Start {{entity}} Test", () =>
             done();
         });
 
-        test('Get {{entity}} /{{entities_name_lc}}/:id', async done => {
+        test('Get {{entity_name}} /{{entities_name_lc}}/:id', async done =>
+        {
 
             const response: any = await request
                 .get(`/api/{{entities_name_lc}}/${{{entity_name_lc}}Id}dasdasda123`)
@@ -324,14 +333,15 @@ describe("Start {{entity}} Test", () =>
             done();
         });
 
-        test('Update {{entity}} /{{entities_name_lc}}/:id', async done => {
+        test('Update {{entity_name}} /{{entities_name_lc}}/:id', async done =>
+        {
             const payload = {
                 name: 11,
                 type: 'asdasd'
-            }
+            };
 
             const response: any = await request
-                .put(`/api/{{entities_name_lc}}/${{{entity_name_lc}}Id}`)
+                .put(`/api/{{entities_name_lc}}/${ {{entity_name_lc}}Id}`)
                 .set('Accept', 'application/json')
                 .set('Authorization', `Bearer ${token}`)
                 .send(payload);
@@ -356,8 +366,8 @@ describe("Start {{entity}} Test", () =>
             done();
         });
 
-        test('Delete {{entity}} error /{{entities_name_lc}}/:id', async done => {
-
+        test('Delete {{entity_name}} error /{{entities_name_lc}}/:id', async done =>
+        {
             const deleteErrorResponse: any = await request
                 .delete(`/api/{{entities_name_lc}}/${deleteResponse.body.data.id}`)
                 .set('Accept', 'application/json')
@@ -369,7 +379,7 @@ describe("Start {{entity}} Test", () =>
             expect(deleteErrorResponse.statusCode).toStrictEqual(400);
             expect(status).toStrictEqual('error');
             expect(statusCode).toStrictEqual('HTTP_BAD_REQUEST');
-            expect(message).toStrictEqual('{{entity}} Not Found');
+            expect(message).toStrictEqual('{{entity_name}} Not Found');
 
             token = refreshToken;
 

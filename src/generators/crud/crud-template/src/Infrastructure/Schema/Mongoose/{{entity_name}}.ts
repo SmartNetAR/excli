@@ -1,6 +1,6 @@
-import {Schema} from "mongoose";
-import {{entity_name}} from "../../../Domain/Entities/{{entity_name}}";
-import { v4 as uuidv4 } from 'uuid';
+import {Schema} from 'mongoose';
+import {v4 as uuidv4} from 'uuid';
+import {{entity_name}} from '../../../Domain/Entities/{{entity_name}}';
 
 const {{entity_name}}Schema: any = new Schema({
     _id: {type: String, default: uuidv4},

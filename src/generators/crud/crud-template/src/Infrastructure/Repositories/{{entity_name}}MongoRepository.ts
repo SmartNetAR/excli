@@ -1,17 +1,13 @@
-import {Query, Model} from "mongoose";
-import {injectable} from "inversify";
-
-import I{{entity_name}}Repository from "../../InterfaceAdapters/IRepositories/I{{entity_name}}Repository";
-import IPaginator from "../../InterfaceAdapters/Shared/IPaginator";
-import ICriteria from "../../InterfaceAdapters/Shared/ICriteria";
-
-import {{entity_name}}Filter from "../../Presentation/Criterias/{{entity_name}}/{{entity_name}}Filter";
-import MongoPaginator from "../../Presentation/Shared/MongoPaginator";
-import I{{entity_name}} from "../../InterfaceAdapters/IEntities/Mongoose/I{{entity_name}}Document";
-import I{{entity_name}}Domain from "../../InterfaceAdapters/IDomain/I{{entity_name}}Domain";
-import {connection} from "../Database/MongooseCreateConnection";
-
-import NotFoundException from "../Exceptions/NotFoundException";
+import {ICriteria, IPaginator} from '@digichanges/shared-experience';
+import {injectable} from 'inversify';
+import {Model, Query} from 'mongoose';
+import I{{entity_name}}Domain from '../../InterfaceAdapters/IDomain/I{{entity_name}}Domain';
+import I{{entity_name}} from '../../InterfaceAdapters/IEntities/Mongoose/I{{entity_name}}Document';
+import I{{entity_name}}Repository from '../../InterfaceAdapters/IRepositories/I{{entity_name}}Repository';
+import {{entity_name}}Filter from '../../Presentation/Criterias/{{entity_name}}/{{entity_name}}Filter';
+import MongoPaginator from '../../Presentation/Shared/MongoPaginator';
+import {connection} from '../Database/MongooseCreateConnection';
+import NotFoundException from '../Exceptions/NotFoundException';
 
 @injectable()
 class {{entity_name}}MongoRepository implements I{{entity_name}}Repository
@@ -54,7 +50,7 @@ class {{entity_name}}MongoRepository implements I{{entity_name}}Repository
         if (filter.has({{entity_name}}Filter.NAME))
         {
             const name: string = filter.get({{entity_name}}Filter.NAME);
-            const rsearch = new RegExp(name, "g");
+            const rsearch = new RegExp(name, 'g');
 
             queryBuilder.where({{entity_name}}Filter.NAME).regex(rsearch);
         }
