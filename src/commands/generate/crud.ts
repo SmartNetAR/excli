@@ -11,14 +11,24 @@ class CrudCommand extends Command {
 		const targetGeneration = flags.for.toLowerCase().trim();
 
 		//error handling
-		if(CrudCommand.flags.for.options.indexOf(targetGeneration) == -1) {
+		if(CrudCommand.flags.for.options.indexOf(targetGeneration) == -1)
+		{
 			return this.error (`Target not found '${targetGeneration}', please try one of the valid ones - ${CrudCommand.flags.for.options.join(",")} - `)
 		}
 
         const CrudGenerators = await import(`../../generators/crud/${targetGeneration}`)
 
-		let entity = flags.entity || null
-        const gen = new CrudGenerators(entity);
+		let entity = flags.entity || null;
+		let tenantEntity = flags.tenantEntity || null;
+		let gen = null;
+		if (entity)
+		{
+			gen = new CrudGenerators(entity);
+		}
+		if (tenantEntity)
+		{
+			gen = new CrudGenerators(tenantEntity);
+		}
 
 		gen.run();
 	}
@@ -27,7 +37,7 @@ class CrudCommand extends Command {
 CrudCommand.flags = {
 	for: flags.string({
 		description: 'Target destination for the generator command',
-		options: ['entity'] //valid options
+		options: ['entity', 'tenantentity'] //valid options
 	}),
 	entity: flags.string({
 		description: "Name of entity",

@@ -7,7 +7,7 @@ import copy = require('copy-template-dir')
 import pluralize = require('pluralize')
 import { string } from "@oclif/command/lib/flags"
 
-const SOURCEEXPRESSBLOG = __dirname + "/crud-template"
+const SOURCEEXPRESSBLOG = __dirname + "/crud-tenant-template"
 
 module.exports = class ExpressBlogGenerator extends BaseGenerator{
 
@@ -20,7 +20,7 @@ module.exports = class ExpressBlogGenerator extends BaseGenerator{
     }
 
     prompts() {
-        this.log(`The following list of files will be created: 
+        this.log(`The following list of files will be created with tenant: 
 ${chalk.green(
         ['src',
            ' - /InterfaceAdapters/IDomain/I' + this.entity_name + 'Domain.ts',
@@ -63,7 +63,7 @@ ${chalk.green("- DELETE")} /${this.entity_name}/:id
     printSuccessMessage(folderName) {
         this.log(chalk.green(`
 == CONGRATS == 
-Your crud is ready for you to start pumping code into it!
+Your tenant crud is ready for you to start pumping code into it!
 
         `))
     }
