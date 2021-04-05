@@ -37,7 +37,7 @@ class CrudCommand extends Command {
 CrudCommand.flags = {
 	for: flags.string({
 		description: 'Target destination for the generator command',
-		options: ['entity', 'tenantentity'] //valid options
+		options: ['entity', 'tenant_entity'] //valid options
 	}),
 	entity: flags.string({
 		description: "Name of entity",
